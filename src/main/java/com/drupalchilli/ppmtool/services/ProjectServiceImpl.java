@@ -32,4 +32,20 @@ public class ProjectServiceImpl implements ProjectService {
 
         return project;
     }
+
+    @Override
+    public Iterable<Project> findAllProjects() {
+        return projectRepository.findAll();
+    }
+
+    @Override
+    public void deleteProjectByIdentifier(String projectId) {
+
+        Project project = projectRepository.findByProjectIdentifier(projectId);
+        if (project == null) {
+            throw new ProjectIdException("project doesn't exist");
+        }
+
+        projectRepository.delete(project);
+    }
 }
