@@ -21,4 +21,15 @@ public class ProjectServiceImpl implements ProjectService {
             throw new ProjectIdException("Project identifier " + project.getProjectIdentifier() + " exists");
         }
     }
+
+    @Override
+    public Project findProjectByIdentifier(String projectId) {
+
+        Project project = projectRepository.findByProjectIdentifier(projectId);
+        if (project == null) {
+            throw new ProjectIdException("Project doesn't exist");
+        }
+
+        return project;
+    }
 }
