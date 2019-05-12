@@ -1,6 +1,10 @@
 package com.drupalchilli.ppmtool.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
@@ -9,13 +13,21 @@ public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "project name cannot be blank")
     private String projectName;
+    @NotBlank(message = "description cannot be blank")
     private String description;
-    private String projectIndentifier;
+    @NotBlank(message = "project identifier cannot be blank")
+    @Size(min = 4, max = 5, message = "project identifier is between 4 and 5 char")
+    @Column(updatable = false, unique = true)
+    private String projectIdentifier;
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date start_date;
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date end_date;
-
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date created_At;
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date updated_At;
 
     public Project() {
@@ -45,12 +57,12 @@ public class Project {
         this.description = description;
     }
 
-    public String getProjectIndentifier() {
-        return projectIndentifier;
+    public String getProjectIdentifier() {
+        return projectIdentifier;
     }
 
-    public void setProjectIndentifier(String projectIndentifier) {
-        this.projectIndentifier = projectIndentifier;
+    public void setProjectIdentifier(String projectIdentifier) {
+        this.projectIdentifier = projectIdentifier;
     }
 
     public Date getStart_date() {
